@@ -1,8 +1,43 @@
 import os
 
+
+def salvar_variaveis(path_file, **kwargs):
+    with open(path_file, 'w') as f:
+        for chave, valor in kwargs.items():
+            f.write(f"{chave}: {valor}\n")
+
+# Carregar variáveis de um arquivo
+def carregar_variaveis(path_file):
+    variaveis = {}
+    with open(path_file, 'r') as f:
+        for line in f:
+            chave, valor = line.strip().split(': ')
+            variaveis[chave] = valor
+    return variaveis
+
+def verifica_primeira_vez():
+    match os.path.exists("variaveis.txt"):
+
+        case True:
+            variaveis_carregadas = carregar_variaveis('variaveis.txt')
+
+            if len(variaveis_carregadas) > 0:
+                print(f"seja bem vindo novamente {variaveis_carregadas["nome"]}")
+            else:
+                nome_v =  input("por favor digite seu nome")
+
+                salvar_variaveis('variaveis.txt',nome = nome_v )
+        case False:
+                nome_v =  input("por favor digite seu nome")
+
+                salvar_variaveis('variaveis.txt',nome = nome_v )
+   
+
 def info():
     print(" projeto megaman x4 \n esse projeto tem como objetivo dar informaçoes de megaman x4\n")
-    nome = input("primeiramente antes de começar digite seu nome: ")
+
+    verifica_primeira_vez()
+
     print("escolha uma das tres opçoes de informaçoes para ver \na opçao 1 conta a historia \na opçao 2 da informaçoes dos chefe \na opçao 3 mostra todos os itens do jogo")
     opcao = input("escolha uma das tres opçoes [1] - historia [2] - chefes - [3] itens: ")
 
